@@ -24,16 +24,16 @@ List registered endpoints.
 | `--site <site>` | `mulerouter` or `mulerun`. Filters to endpoints available on that gateway. |
 | `--output-type <type>` | `image` / `video` / `audio`. |
 | `--tag <tag>` | Filter by tag (e.g. `SOTA`). |
-| `--limit <n>` | Cap result count. |
+| `--providers` | List provider names only (no endpoints). |
 | `--json` | Emit JSON. |
 
-### `mulerouter params <provider>/<model>/<action>`
+### `mulerouter params <provider>/<model>[/<action>]`
 
-Print the parameter schema (name, type, required, default, enum) for one endpoint. Use this before crafting a `run` call when uncertain about flags.
+Print the parameter schema (name, type, required, default, enum) for one endpoint. Use this before crafting a `run` call when uncertain about flags. If `<action>` is omitted and unambiguous, it is auto-resolved. Flag: `--json`.
 
-### `mulerouter run <provider>/<model>/<action> [flags]`
+### `mulerouter run <provider>/<model>[/<action>] [flags]`
 
-Invoke an endpoint. CLI flags follow `--snake-or-kebab-name <value>`; the CLI converts `-` to `_` when building the request body.
+Invoke an endpoint. CLI flags follow `--snake-or-kebab-name <value>`; the CLI converts `-` to `_` when building the request body. Unknown flags pass through as model parameters (via `allowUnknownOption`). `--key=value` and `--no-key` (→ `false`) syntax both work.
 
 Common flags applicable to every `run`:
 
@@ -45,7 +45,9 @@ Common flags applicable to every `run`:
 | `--no-wait` | off | Submit the task and return its id/api_path without polling. |
 | `--poll-interval <sec>` | `20` | Seconds between status polls (when waiting). |
 | `--max-wait <sec>` | `900` | Total seconds to wait before timing out. |
+| `--quiet` | off | Suppress progress output. |
 | `--json` | off | Emit machine-readable JSON instead of plain text. |
+| `--extra <key=value>` | — | Repeatable. Pass parameters not declared in the endpoint registry. |
 
 ### `mulerouter status <api-path> <task-id> [flags]`
 
@@ -54,8 +56,17 @@ Check status of an async task previously submitted with `--no-wait`. The first a
 | Flag | Description |
 |------|-------------|
 | `--wait` | Block until terminal status (uses `--poll-interval` / `--max-wait`). |
+| `--api-key <key>` | Override `MULEROUTER_API_KEY`. |
+| `--base-url <url>` | Override `MULEROUTER_BASE_URL`. |
 | `--site <site>` | Must match the site the task was submitted to. |
+| `--poll-interval <sec>` | Polling cadence when `--wait`. Default `20`. |
+| `--max-wait <sec>` | Hard timeout when `--wait`. Default `900`. |
+| `--quiet` | Suppress progress output. |
 | `--json` | Emit JSON. |
+
+### `mulerouter config`
+
+Print the effective configuration (loaded env vars, resolved base URL, site, etc.) and any setup help. Useful for diagnosing "where is my config coming from?" issues.
 
 ## Image Parameter Handling
 

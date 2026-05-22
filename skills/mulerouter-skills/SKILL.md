@@ -38,7 +38,7 @@ Only `MULEROUTER_*`-prefixed variables are loaded from `.env`. Do NOT `export` s
 ```bash
 npm install -g mulerouter        # or: npx -y mulerouter@latest
 mulerouter --version
-mulerouter list --limit 1        # smoke test (also validates env)
+mulerouter config                # diagnose env / show effective configuration
 ```
 
 ## Discovery & invocation

@@ -84,7 +84,7 @@ The CLI only loads variables prefixed with `MULEROUTER_` from `.env`. Other vari
 
 ```bash
 mulerouter --version
-mulerouter list --limit 1     # smoke test (loads config the same way `run` does)
+mulerouter config              # show current configuration / diagnose env
 ```
 
 ## Quick Start
