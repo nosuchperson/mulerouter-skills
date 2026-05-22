@@ -1,44 +1,49 @@
 # MuleRouter Skill
 
-A Claude Code skill for generating images and videos using MuleRouter/MuleRun multimodal APIs.
+Claude Code skill for generating images, videos, speech, and music via MuleRouter / MuleRun multimodal APIs. Wraps the [`mulerouter` npm CLI](https://www.npmjs.com/package/mulerouter) — no Python runtime required.
 
 ## Features
 
-- Text-to-Image generation
-- Text-to-Video generation
-- Image-to-Video transformation
-- Image-to-Image editing
+- Text-to-Image / Image-to-Image
+- Text-to-Video / Image-to-Video / Reference-to-Video / Video-to-Video
 - Video editing (VACE, keyframe interpolation)
+- Text-to-Speech and Text-to-Music
 
 ## Requirements
 
-- Python 3.10+
-- `uv` package manager
+- Node.js 18+
+- The `mulerouter` npm CLI (`npm install -g mulerouter`)
 - API key from MuleRouter or MuleRun
 
 ## Setup
 
 ```bash
-# Option 1: Use custom base URL (takes priority)
-export MULEROUTER_BASE_URL="https://api.mulerouter.ai"
-export MULEROUTER_API_KEY="your-api-key"
+# install the CLI
+npm install -g mulerouter
 
-# Option 2: Use site (if BASE_URL not set)
-export MULEROUTER_SITE="mulerun"  # or "mulerouter"
+# set credentials (or use a .env file — see .env.example)
 export MULEROUTER_API_KEY="your-api-key"
+export MULEROUTER_BASE_URL="https://api.mulerouter.ai"   # or:
+# export MULEROUTER_SITE="mulerouter"                    # mulerouter | mulerun
 ```
+
+`MULEROUTER_BASE_URL` takes priority over `MULEROUTER_SITE` when both are set.
 
 ## Usage
 
 ```bash
-# List available models
-uv run python scripts/list_models.py
+# discover endpoints
+mulerouter list
+mulerouter list --tag SOTA
+mulerouter params alibaba/wan2.6-t2v/generation
 
-# Generate video from text
-uv run python models/alibaba/wan2.6-t2v/generation.py --prompt "A cat walking"
+# generate a video
+mulerouter run alibaba/wan2.6-t2v/generation \
+  --prompt "A cat walking through a garden"
 
-# Generate image from text
-uv run python models/alibaba/wan2.6-t2i/generation.py --prompt "A mountain lake"
+# generate an image
+mulerouter run alibaba/wan2.6-t2i/generation \
+  --prompt "A serene mountain lake"
 ```
 
-See [SKILL.md](SKILL.md) for detailed documentation.
+See [SKILL.md](SKILL.md) for per-endpoint flag documentation, [references/MODELS.md](references/MODELS.md) for the full model catalog, and [references/REFERENCE.md](references/REFERENCE.md) for CLI subcommand details.

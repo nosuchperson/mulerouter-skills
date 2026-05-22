@@ -1,140 +1,120 @@
-# Model Reference
+# Model Catalog
 
-## Discovering Models
+Full inventory of endpoints accessible through `mulerouter run <id> ...`. For invocation flags per endpoint, see the corresponding section in [../SKILL.md](../SKILL.md). For CLI-wide flags, see [REFERENCE.md](REFERENCE.md).
 
-Run `python scripts/list_models.py` to see available models:
-
-```bash
-# List all models
-python scripts/list_models.py
-
-# Filter by provider
-python scripts/list_models.py --provider alibaba
-
-# Filter by output type
-python scripts/list_models.py --output-type video
-
-# JSON output
-python scripts/list_models.py --json
-```
-
-## Model Categories
-
-### Text-to-Image (T2I)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Wan2.6 T2I | `models/alibaba/wan2.6-t2i/generation.py` | Flagship image generation |
-| Wan2.5 T2I Preview | `models/alibaba/wan2.5-t2i-preview/generation.py` | Preview model |
-| Nano Banana 2 | `models/google/nano-banana-2/generation.py` | 4K images, 14 aspect ratios, web search grounding |
-| Nano Banana Pro | `models/google/nano-banana-pro/generation.py` | High-resolution images |
-| Midjourney Diffusion | `models/midjourney/diffusion/generation.py` | Midjourney image generation |
-| GPT Image 2 | `models/openai/gpt-image-2/generation.py` | OpenAI GPT Image 2, up to 4K resolution, multiple quality levels, batch up to 4 images (mulerouter only) |
-
-### Text-to-Video (T2V)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Wan2.6 T2V | `models/alibaba/wan2.6-t2v/generation.py` | Flagship video generation |
-| Wan2.5 T2V Preview | `models/alibaba/wan2.5-t2v-preview/generation.py` | Preview model |
-| Wan2.2 T2V Plus | `models/alibaba/wan2.2-t2v-plus/generation.py` | Previous generation |
-| Happy Horse 1.0 T2V | `models/alibaba/happy-horse-1-0-t2v/generation.py` | Happy Horse 1.0 text-to-video, 720P/1080P, 3-15s |
-| Veo 3 | `models/google/veo3/generation.py` | Google Veo 3 video generation (mulerun only) |
-| Sora 2 | `models/openai/sora2/generation.py` | OpenAI Sora 2 video generation (mulerun only) |
-| Kling V3 T2V | `models/klingai/kling-v3-t2v/generation.py` | Kling V3 text-to-video, 3-15s, sound & multi-shot |
-| Kling V3 Omni T2V | `models/klingai/kling-v3-omni-t2v/generation.py` | Kling V3 Omni text-to-video, multi-shot, sound, element refs |
-
-### Image-to-Video (I2V)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Wan2.6 I2V | `models/alibaba/wan2.6-i2v/generation.py` | Flagship image animation |
-| Wan2.5 I2V Preview | `models/alibaba/wan2.5-i2v-preview/generation.py` | Preview model |
-| Wan2.2 I2V Plus | `models/alibaba/wan2.2-i2v-plus/generation.py` | High quality |
-| Wan2.2 I2V Flash | `models/alibaba/wan2.2-i2v-flash/generation.py` | 50% faster |
-| Happy Horse 1.0 I2V | `models/alibaba/happy-horse-1-0-i2v/generation.py` | Happy Horse 1.0 image-to-video, 720P/1080P, 3-15s, optional text guidance |
-| Veo 3 | `models/google/veo3/generation.py` | Google Veo 3 with image input (mulerun only) |
-| Sora 2 | `models/openai/sora2/generation.py` | OpenAI Sora 2 with image input (mulerun only) |
-| Midjourney Video | `models/midjourney/video/generation.py` | Image-to-video (prompt must include image URL) |
-| Kling V3 I2V | `models/klingai/kling-v3-i2v/generation.py` | Kling V3 image-to-video, 3-15s, sound & multi-shot |
-| Kling V3 Omni I2V | `models/klingai/kling-v3-omni-i2v/generation.py` | Kling V3 Omni image-to-video, multi-shot, sound |
-
-### Reference-to-Video (Ref2V)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Kling V3 Omni Ref2V | `models/klingai/kling-v3-omni-ref2v/generation.py` | Kling V3 Omni reference-to-video, style/character guidance |
-
-### Video-to-Video (V2V)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Kling V3 Omni V2V | `models/klingai/kling-v3-omni-v2v/generation.py` | Kling V3 Omni video-to-video, feature-guided generation |
-| Kling V3 Omni V2V Edit | `models/klingai/kling-v3-omni-v2v-edit/generation.py` | Kling V3 Omni video editing, modify existing videos |
-
-### Image-to-Image (I2I)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Wan2.5 I2I Preview | `models/alibaba/wan2.5-i2i-preview/generation.py` | Image editing |
-| Nano Banana 2 Edit | `models/google/nano-banana-2/edit.py` | Image editing, up to 14 reference images |
-| Nano Banana Pro Edit | `models/google/nano-banana-pro/edit.py` | Image editing |
-| GPT Image 2 Edit | `models/openai/gpt-image-2/edit.py` | Edit images with text prompts, multiple input images, optional mask for targeted edits, up to 4K (mulerouter only) |
-
-### Advanced Video Editing
-
-| Model | Path | Description |
-|-------|------|-------------|
-| Wan2.6 Image | `models/alibaba/wan2.6-image/generation.py` | Image processing |
-| Wan2.1 VACE Plus | `models/alibaba/wan2.1-vace-plus/generation.py` | Video outpainting |
-| Wan2.1 KF2V Plus | `models/alibaba/wan2.1-kf2v-plus/generation.py` | Keyframe interpolation |
-
-### Text-to-Speech (TTS)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| MiniMax Speech 2.8 HD | `models/minimax/speech-2.8-hd/generation.py` | High-definition TTS, 37+ languages, voice emotions, $100/M chars |
-| MiniMax Speech 2.8 Turbo | `models/minimax/speech-2.8-turbo/generation.py` | Fast affordable TTS, 37+ languages, voice emotions, $60/M chars |
-
-### Text-to-Music (TTM)
-
-| Model | Path | Description |
-|-------|------|-------------|
-| MiniMax Music 2.0 | `models/minimax/music-2.0/generation.py` | Music generation from lyrics and style, up to 5min, $0.03/song |
-| MiniMax Music 2.5 | `models/minimax/music-2.5/generation.py` | Latest music generation from lyrics and style, up to 5min, $0.15/song |
-
-## Checking Parameters
-
-Before calling a model, use `--list-params`:
+## Discovery
 
 ```bash
-python models/alibaba/wan2.6-t2v/generation.py --list-params
+mulerouter list                                # all endpoints
+mulerouter list --provider alibaba             # filter by provider
+mulerouter list --site mulerun                 # filter by gateway
+mulerouter list --output-type video --tag SOTA # composite filter
+mulerouter params <provider>/<model>/<action>  # detailed schema
 ```
 
-Example output:
+## Site Legend
 
-```
-Parameters for alibaba/wan2.6-t2v generation:
+- **both** — endpoint is routed on both `mulerouter` and `mulerun`. `--site` is optional.
+- **mulerouter** — routed only on `api.mulerouter.ai`. Pass `--site mulerouter` (or use default).
+- **mulerun** — routed only on `api.mulerun.com`. Pass `--site mulerun` explicitly.
 
-Required:
-  --prompt TEXT          Text description for video content (max 2000 chars)
+## Endpoint Inventory (37 total)
 
-Optional:
-  --negative-prompt TEXT Unwanted content description
-  --size TEXT            Resolution: 1280*720 (default), 1920*1080, etc.
-  --duration INT         Duration: 5 (default), 10, or 15 seconds
-  --seed INT             Random seed for reproducibility
-```
+### Alibaba
 
-## Common Parameters
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `alibaba/wan2.1-vace-plus/generation` | | video | both | `/vendors/alibaba/v1/wan2.1-vace-plus/generation` |
+| `alibaba/wan2.1-kf2v-plus/generation` | | video | both | `/vendors/alibaba/v1/wan2.1-kf2v-plus/generation` |
+| `alibaba/wan2.2-t2v-plus/generation` | | video | both | `/vendors/alibaba/v1/wan2.2-t2v-plus/generation` |
+| `alibaba/wan2.2-i2v-plus/generation` | | video | both | `/vendors/alibaba/v1/wan2.2-i2v-plus/generation` |
+| `alibaba/wan2.2-i2v-flash/generation` | | video | both | `/vendors/alibaba/v1/wan2.2-i2v-flash/generation` |
+| `alibaba/wan2.5-t2v-preview/generation` | | video | both | `/vendors/alibaba/v1/wan2.5-t2v-preview/generation` |
+| `alibaba/wan2.5-i2v-preview/generation` | | video | both | `/vendors/alibaba/v1/wan2.5-i2v-preview/generation` |
+| `alibaba/wan2.5-t2i-preview/generation` | | image | both | `/vendors/alibaba/v1/wan2.5-t2i-preview/generation` |
+| `alibaba/wan2.5-i2i-preview/generation` | | image | both | `/vendors/alibaba/v1/wan2.5-i2i-preview/generation` |
+| `alibaba/wan2.6-t2v/generation` | SOTA | video | both | `/vendors/alibaba/v1/wan2.6-t2v/generation` |
+| `alibaba/wan2.6-i2v/generation` | SOTA | video | both | `/vendors/alibaba/v1/wan2.6-i2v/generation` |
+| `alibaba/wan2.6-t2i/generation` | | image | both | `/vendors/alibaba/v1/wan2.6-t2i/generation` |
+| `alibaba/wan2.6-image/generation` | | image | both | `/vendors/alibaba/v1/wan2.6-image/generation` |
+| `alibaba/happy-horse-1-0-t2v/generation` | | video | mulerun | `/vendors/alibaba/v1/happy-horse-1-0-t2v/generation` |
+| `alibaba/happy-horse-1-0-i2v/generation` | | video | mulerun | `/vendors/alibaba/v1/happy-horse-1-0-i2v/generation` |
 
-| Parameter | Type | Models | Description |
-|-----------|------|--------|-------------|
-| `--prompt` | string | All | Content description (required) |
-| `--negative-prompt` | string | Most | Unwanted content |
-| `--size` | string | Video | Resolution (width*height) |
-| `--resolution` | string | Some | 720P, 1080P, 2K |
-| `--duration` | int | Video | Length in seconds |
-| `--seed` | int | All | Reproducibility seed |
-| `--image` | string | I2V/I2I | Input image URL |
-| `--safety-filter` | boolean | All Wan | Enable safety content filtering (default: true) |
+### ByteDance — Seedance
+
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `bytedance/seedance-2.0/text-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0/text-to-video/generation` |
+| `bytedance/seedance-2.0/image-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0/image-to-video/generation` |
+| `bytedance/seedance-2.0/reference-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0/reference-to-video/generation` |
+| `bytedance/seedance-2.0-fast/text-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0-fast/text-to-video/generation` |
+| `bytedance/seedance-2.0-fast/image-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0-fast/image-to-video/generation` |
+| `bytedance/seedance-2.0-fast/reference-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0-fast/reference-to-video/generation` |
+
+### Google
+
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `google/nano-banana/generation` | | image | mulerun | `/vendors/google/v1/nano-banana/generation` |
+| `google/nano-banana/edit` | | image | mulerun | `/vendors/google/v1/nano-banana/edit` |
+| `google/nano-banana-2/generation` | SOTA | image | both | `/vendors/google/v1/nano-banana-2/generation` |
+| `google/nano-banana-2/edit` | SOTA | image | both | `/vendors/google/v1/nano-banana-2/edit` |
+| `google/nano-banana-pro/generation` | SOTA | image | both | `/vendors/google/v1/nano-banana-pro/generation` |
+| `google/nano-banana-pro/edit` | SOTA | image | both | `/vendors/google/v1/nano-banana-pro/edit` |
+| `google/veo3/generation` | SOTA | video | mulerun | `/vendors/google/v1/veo/generation` |
+
+### KlingAI
+
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `klingai/kling-v3-t2v/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3/text-to-video/generation` |
+| `klingai/kling-v3-i2v/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3/image-to-video/generation` |
+| `klingai/kling-v3-omni-t2v/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3-omni/text-to-video/generation` |
+| `klingai/kling-v3-omni-i2v/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3-omni/image-to-video/generation` |
+| `klingai/kling-v3-omni-ref2v/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3-omni/reference-image-to-video/generation` |
+| `klingai/kling-v3-omni-v2v/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3-omni/reference-video-to-video/generation` |
+| `klingai/kling-v3-omni-v2v-edit/generation` | SOTA | video | both | `/vendors/klingai/v1/kling-v3-omni/video-to-video/edit` |
+
+### Midjourney
+
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `midjourney/diffusion/generation` | SOTA | image | both | `/vendors/midjourney/v1/tob/diffusion` |
+| `midjourney/video/generation` | SOTA | video | both | `/vendors/midjourney/v1/tob/video-diffusion` |
+
+Note: `midjourney/diffusion` is **synchronous** (returns inline). All other endpoints in this catalog are async (task-poll lifecycle).
+
+### MiniMax (all mulerun-only)
+
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `minimax/speech-2.8-hd/generation` | | audio | mulerun | `/vendors/minimax/v1/speech-2.8-hd/text-to-speech/generation` |
+| `minimax/speech-2.8-turbo/generation` | | audio | mulerun | `/vendors/minimax/v1/speech-2.8-turbo/text-to-speech/generation` |
+| `minimax/music-2.0/generation` | | audio | mulerun | `/vendors/minimax/v1/music-2.0/text-to-music/generation` |
+| `minimax/music-2.5/generation` | | audio | mulerun | `/vendors/minimax/v1/music-2.5/text-to-music/generation` |
+
+### OpenAI
+
+| Endpoint | Tag | Output | Site | API Path |
+|----------|-----|--------|------|----------|
+| `openai/gpt-image-2/generation` | SOTA | image | mulerouter | `/vendors/openai/v1/gpt-image-2/generation` |
+| `openai/gpt-image-2/edit` | SOTA | image | mulerouter | `/vendors/openai/v1/gpt-image-2/edit` |
+| `openai/sora2/generation` ⚠ | SOTA | video | mulerun | `/vendors/openai/v1/sora-2/generation` |
+
+⚠ `openai/sora2/generation` requires `mulerouter` CLI built from commit `2dc5b60` or later. Until a new version is published to npm, this endpoint is unavailable via the published CLI. See [../SKILL.md](../SKILL.md) for full notes.
+
+## Result Keys
+
+The `mulerouter run` JSON output places generated media URLs under `result[<resultKey>]`:
+
+| Output type | resultKey |
+|-------------|-----------|
+| image | `images` |
+| video | `videos` |
+| audio | `audios` |
+
+## See Also
+
+- [../SKILL.md](../SKILL.md) — full per-endpoint flag documentation
+- [REFERENCE.md](REFERENCE.md) — CLI subcommands, env vars, async lifecycle
+- [MINIMAX_VOICES.md](MINIMAX_VOICES.md) — MiniMax TTS voice IDs

@@ -1,36 +1,45 @@
 # MuleRouter Agent Skill
 
-Agent Skill for calling MuleRouter / MuleRun multimodal APIs to generate images and videos.
+Agent Skill for calling MuleRouter / MuleRun multimodal APIs to generate images, videos, speech, and music. The skill is a thin documentation layer over the [`mulerouter` npm CLI](https://www.npmjs.com/package/mulerouter), which handles all network calls, image base64 conversion, and async task polling.
 
 ## Features
 
-- **Multiple Sites**: Supports both [MuleRouter](https://mulerouter.ai) and [MuleRun](https://mulerun.com) APIs
-- **Various Models**: Wan2.6 series (T2V, I2V, T2I, Image), Nano Banana Pro and more
-- **Easy Configuration**: Environment variables or .env file
-- **Async Task Handling**: Automatic polling for long-running tasks
-- **AI-Friendly**: Clear parameter documentation via `--list-params`
+- **Multiple sites** — supports both [MuleRouter](https://mulerouter.ai) and [MuleRun](https://mulerun.com) gateways
+- **37+ endpoints** — Wan2.1/2.2/2.5/2.6, Happy Horse, Seedance 2.0, Nano Banana / Pro, Veo3, Sora2, GPT-Image-2, Kling V3 / V3 Omni, Midjourney, MiniMax Speech 2.8 + Music 2.5
+- **Single CLI surface** — `mulerouter run <provider>/<model>/<action> --flag value …`
+- **Easy configuration** — environment variables or `.env` file
+- **Async task handling** — automatic polling, or split into `--no-wait` + `mulerouter status` for long jobs
+- **AI-friendly discovery** — `mulerouter list` / `mulerouter params <endpoint>` enumerate everything
 
 ## Installation
 
-### Install By Claude Code Plugin
+### Step 1 — Install the CLI
 
-#### Install via CLI
+```bash
+npm install -g mulerouter
+# or run ad-hoc without installing
+npx -y mulerouter@latest --help
+```
+
+Requires Node.js 18 or later.
+
+### Step 2 — Install the skill
+
+#### Via Claude CLI
 
 ```bash
 claude plugin marketplace add openmule/mulerouter-skills
 claude plugin install mulerouter-skills
 ```
 
-#### Install via Claude Code
+#### Via Claude Code session
 
-In a Claude Code session:
-
-```bash
+```
 /plugin marketplace add openmule/mulerouter-skills
 /plugin install mulerouter-skills
 ```
 
-After installation, **RESTART Claude Code** to load the new skill.
+After installation, **restart Claude Code** to load the new skill.
 
 ## Configuration
 
@@ -38,114 +47,88 @@ After installation, **RESTART Claude Code** to load the new skill.
 
 | Variable | Description |
 |----------|-------------|
-| `MULEROUTER_API_KEY` | API key for authentication |
+| `MULEROUTER_API_KEY` | API key for authentication ([get one here](https://www.mulerouter.ai/app/api-keys?utm_source=github_claude_plugin)) |
 
-### API Endpoint Configuration (one required)
+### API endpoint (one required)
 
 | Variable | Description | Priority |
 |----------|-------------|----------|
-| `MULEROUTER_BASE_URL` | Custom API base URL (e.g., `https://api.mulerouter.ai`) | Higher |
-| `MULEROUTER_SITE` | API site: `mulerouter` or `mulerun` | Lower |
+| `MULEROUTER_BASE_URL` | Custom API base URL (e.g. `https://api.mulerouter.ai`) | higher |
+| `MULEROUTER_SITE` | API site: `mulerouter` or `mulerun` | lower |
 
-**Note:** `MULEROUTER_BASE_URL` takes priority over `MULEROUTER_SITE`. If both are set, `MULEROUTER_BASE_URL` is used.
+If both are set, `MULEROUTER_BASE_URL` wins.
 
-Get your API key on the [MuleRouter website](https://www.mulerouter.ai/app/api-keys?utm_source=github_claude_plugin)
+### Setup options
 
-### Option 1: Environment Variables (with custom base URL)
+#### Option A — shell env
 
 ```bash
+export MULEROUTER_API_KEY="your-api-key"
 export MULEROUTER_BASE_URL="https://api.mulerouter.ai"
-export MULEROUTER_API_KEY="your-api-key"
+# or instead: export MULEROUTER_SITE=mulerouter
 ```
 
-### Option 2: Environment Variables (with site)
-
-```bash
-export MULEROUTER_SITE="mulerouter"      # or "mulerun"
-export MULEROUTER_API_KEY="your-api-key"
-```
-
-### Option 3: .env File
-
-Create a `.env` file in your skill directory:
+#### Option B — `.env` file
 
 ```env
-# Option 1: Use custom base URL (takes priority)
-MULEROUTER_BASE_URL=https://api.mulerouter.ai
-MULEROUTER_API_KEY=your-api-key-here
+MULEROUTER_API_KEY=your-api-key
 
-# Option 2: Use site (if BASE_URL not set)
-# MULEROUTER_SITE=mulerun
-# MULEROUTER_API_KEY=your-api-key-here
+# pick ONE
+MULEROUTER_BASE_URL=https://api.mulerouter.ai
+# MULEROUTER_SITE=mulerouter   # or: mulerun
 ```
 
-**Note:** The tool only reads `MULEROUTER_*` variables from `.env`. Other variables in the file are ignored.
+The CLI only loads variables prefixed with `MULEROUTER_` from `.env`. Other variables are ignored.
 
-### Verify Configuration
+### Verify
 
 ```bash
-# Check environment variables
-echo "MULEROUTER_BASE_URL: $MULEROUTER_BASE_URL"
-echo "MULEROUTER_SITE: $MULEROUTER_SITE"
-echo "MULEROUTER_API_KEY: ${MULEROUTER_API_KEY:+[SET]}"
-
-# Check for .env file
-ls -la .env 2>/dev/null || echo "No .env in current directory"
+mulerouter --version
+mulerouter list --limit 1     # smoke test (loads config the same way `run` does)
 ```
 
 ## Quick Start
 
-Let Claude Code run `/mulerouter-skills:mulerouter-skills` to use the skill.
+Once installed and configured, just ask Claude to use MuleRouter to generate something — the skill self-documents available models. Manually you can also call the CLI directly:
 
-Or just ask Claude to use MuleRouter to generate some images or videos.
+```bash
+# enumerate endpoints
+mulerouter list --tag SOTA
+
+# inspect parameters for one endpoint
+mulerouter params alibaba/wan2.6-t2v/generation
+
+# generate a video
+mulerouter run alibaba/wan2.6-t2v/generation \
+  --prompt "A cat walking through a garden"
+
+# text-to-speech (mulerun-only model)
+mulerouter run minimax/speech-2.8-turbo/generation --site mulerun \
+  --prompt "Hello world." --voice-id Charming_Lady
+```
+
+See [`skills/mulerouter-skills/SKILL.md`](skills/mulerouter-skills/SKILL.md) for full per-endpoint documentation and [`skills/mulerouter-skills/references/MODELS.md`](skills/mulerouter-skills/references/MODELS.md) for the model catalog.
 
 ## Project Structure
 
 ```
-skills/mulerouter/
-├── SKILL.md              # Agent skill entry point
-├── scripts/              # Utility scripts
-│   └── list_models.py    # Model listing utility
-├── models/               # Model endpoints (executable)
-├── core/                 # Core infrastructure
-│   ├── config.py         # Configuration management
-│   ├── client.py         # HTTP client
-│   ├── registry.py       # Model registry
-│   └── task.py           # Task polling
-├── references/           # Documentation
-│   ├── REFERENCE.md      # API reference
-│   └── MODELS.md         # Model specifications
-└── tests/                # Unit tests
+.
+├── .claude-plugin/
+│   └── marketplace.json
+├── README.md
+├── LICENSE
+└── skills/
+    └── mulerouter-skills/
+        ├── SKILL.md                    # Agent skill entry point (per-model docs)
+        ├── README.md                   # (this file)
+        ├── .env.example
+        └── references/
+            ├── REFERENCE.md            # CLI subcommands, flags, lifecycle
+            ├── MODELS.md               # Model catalog (37+ endpoints)
+            └── MINIMAX_VOICES.md       # MiniMax TTS voice IDs
 ```
 
-## CLI Options
-
-All model scripts support:
-
-| Option | Description |
-|--------|-------------|
-| `--api-key KEY` | Override API key |
-| `--base-url URL` | Override base URL (takes priority over --site) |
-| `--site SITE` | Override site (mulerouter/mulerun) |
-| `--json` | Output as JSON |
-| `--list-params` | Show parameters and exit |
-| `--no-wait` | Don't wait for task completion |
-| `--quiet` | Suppress progress output |
-
-## Development
-
-### Format and Lint
-
-```bash
-uv run ruff format .
-uv run ruff check --fix .
-```
-
-### Run Tests
-
-```bash
-uv run pytest
-```
+There are no Python entry points; all runtime logic lives in the `mulerouter` npm CLI.
 
 ## License
 
