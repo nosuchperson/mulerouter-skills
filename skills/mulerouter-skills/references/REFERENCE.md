@@ -73,8 +73,9 @@ Print the effective configuration (loaded env vars, resolved base URL, site, etc
 The following flag names are treated as image parameters and accept local file paths, HTTPS URLs, or `data:image/...` URIs:
 
 ```
-image, images, first_frame, last_frame, first_frame_url, last_frame_url,
-ref_images_url, reference_images
+image, images, first_frame, last_frame, last_frame_image,
+first_frame_url, last_frame_url, ref_images_url, reference_images,
+mask, mask_image_url
 ```
 
 When a local path is supplied, the CLI:
@@ -102,13 +103,23 @@ For array-valued image flags, pass a single-quoted JSON literal:
 
 ## Async Lifecycle
 
-All endpoints except `midjourney/diffusion/generation` are task-based:
+Every `mulerouter run` invocation is task-based — there is no synchronous code path in the CLI:
 
-1. `mulerouter run <id> ...` POSTs to the api_path, gets back `{task_id, api_path}`.
-2. By default it polls `GET <api_path>/<task_id>` every `--poll-interval` seconds.
-3. On terminal status (`completed` / `succeeded` / `failed`), the result is printed (URLs of generated media in `result[<resultKey>]`).
+1. `mulerouter run <id> ...` POSTs to the api_path, receives `{task_info: {id, status, ...}, api_path}` (the response also hoists `task_id` to the top level for convenience).
+2. Unless `--no-wait` is passed, the CLI polls `GET <api_path>/<task_id>` every `--poll-interval` seconds.
+3. On terminal status (`completed` / `succeeded` / `failed`), the final task body is printed; generated media URLs are under `result[<resultKey>]`.
 
-`midjourney/diffusion/generation` returns the image inline — `--no-wait` has no effect.
+Some endpoints (notably `midjourney/diffusion/generation`) typically complete on the very first poll, but the lifecycle is the same as long-running video jobs.
+
+## Client-side Validation
+
+The CLI validates **only** enum membership for parameters that declare an `enum`. It does **not** enforce:
+
+- Numeric ranges (e.g. "duration 3..15" in a description string)
+- "At-least-one-of" requirements (e.g. kling i2v needs first or last frame)
+- Conditional requirements (e.g. mask requires images)
+
+Out-of-range or incomplete inputs are forwarded to the API and returned as a 400.
 
 ## `--model` Flag
 

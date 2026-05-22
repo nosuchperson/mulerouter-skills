@@ -64,11 +64,13 @@ Run `mulerouter params <id>` instead of guessing flag names or memorising enums.
 | `--json` | off | Machine-readable output. |
 | `--api-key` / `--base-url` | env | One-off overrides. |
 
-Async lifecycle: `mulerouter run ... --no-wait --json` → grab `task_id` and `api_path` → `mulerouter status <api_path> <task_id> [--wait]`. The only **synchronous** endpoint is `midjourney/diffusion/generation`.
+Async lifecycle: `mulerouter run ... --no-wait --json` → grab `task_id` and `api_path` from the JSON (both top-level `task_id` and `task_info.id` are present) → `mulerouter status <api_path> <task_id> [--wait]`. All endpoints go through this task-poll flow; some (like `midjourney/diffusion`) typically complete on the first poll, but there is no synchronous code path.
+
+The CLI does **not** validate model parameter constraints client-side beyond enum membership — numeric range hints (e.g. "duration 3..15"), "at-least-one-of" requirements (e.g. kling i2v needs first or last frame), and conditional requirements are enforced by the upstream API. Bad inputs come back as a 400 from the server.
 
 ## Image inputs
 
-Flags `--image / --images / --first-frame / --last-frame / --first-frame-url / --last-frame-url / --ref-images-url / --reference-images` accept local paths (auto-validated and base64-encoded), HTTPS URLs, or `data:image/...` URIs. For array-typed flags pass a single-quoted JSON literal: `--images '["/tmp/a.png","https://example.com/b.png"]'`. Same convention for `--multi-prompt`, `--elements`, `--video`, `--videos`, `--audios`.
+Flags `--image / --images / --first-frame / --last-frame / --last-frame-image / --first-frame-url / --last-frame-url / --ref-images-url / --reference-images / --mask / --mask-image-url` accept local paths (auto-validated and base64-encoded), HTTPS URLs, or `data:image/...` URIs. For array-typed flags pass a single-quoted JSON literal: `--images '["/tmp/a.png","https://example.com/b.png"]'`. Same convention for `--multi-prompt`, `--elements`, `--video`, `--videos`, `--audios`.
 
 ## `--model` flag
 
@@ -128,7 +130,7 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 
 ### Midjourney (2)
 
-- `midjourney/diffusion/generation` `[SOTA]` — any site — `/vendors/midjourney/v1/tob/diffusion` — **synchronous**; `--no-wait` has no effect. Use Midjourney inline syntax inside `--prompt` (`--ar 16:9`, `--v 7`, etc.).
+- `midjourney/diffusion/generation` `[SOTA]` — any site — `/vendors/midjourney/v1/tob/diffusion` — typically completes on the first poll. Use Midjourney inline syntax inside `--prompt` (`--ar 16:9`, `--v 7`, etc.).
 - `midjourney/video/generation` `[SOTA]` — any site — `/vendors/midjourney/v1/tob/video-diffusion` — for I2V, embed the image URL inside `--prompt`. `--video-type 0` (480p, default) / `1` (720p).
 
 ### MiniMax — all `--site mulerun` (4)

@@ -82,7 +82,7 @@ mulerouter params <provider>/<model>/<action>  # detailed schema
 | `midjourney/diffusion/generation` | SOTA | image | both | `/vendors/midjourney/v1/tob/diffusion` |
 | `midjourney/video/generation` | SOTA | video | both | `/vendors/midjourney/v1/tob/video-diffusion` |
 
-Note: `midjourney/diffusion` is **synchronous** (returns inline). All other endpoints in this catalog are async (task-poll lifecycle).
+Note: every endpoint in this catalog goes through the same async task-poll lifecycle on the client (`mulerouter run` POSTs then polls until terminal). `midjourney/diffusion/generation` typically completes on the first poll; other video/image endpoints take longer.
 
 ### MiniMax (all mulerun-only)
 
