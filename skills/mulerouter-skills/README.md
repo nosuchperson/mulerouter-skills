@@ -1,11 +1,13 @@
 # MuleRouter Skill
 
-Claude Code skill for generating images, videos, speech, and music via MuleRouter / MuleRun multimodal APIs. Wraps the [`mulerouter` npm CLI](https://www.npmjs.com/package/mulerouter) — no Python runtime required.
+Claude Code skill for generating images, videos, speech, and music via MuleRouter / MuleRun multimodal APIs. Wraps the [`mulerouter` npm CLI](https://www.npmjs.com/package/mulerouter).
 
 ## Features
 
-- Text-to-Image / Image-to-Image
-- Text-to-Video / Image-to-Video / Reference-to-Video / Video-to-Video
+- Text-to-Image generation
+- Text-to-Video generation
+- Image-to-Video transformation
+- Image-to-Image editing
 - Video editing (VACE, keyframe interpolation)
 - Text-to-Speech and Text-to-Music
 

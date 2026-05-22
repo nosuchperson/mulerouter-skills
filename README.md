@@ -128,7 +128,7 @@ See [`skills/mulerouter-skills/SKILL.md`](skills/mulerouter-skills/SKILL.md) for
             └── MINIMAX_VOICES.md       # MiniMax TTS voice IDs
 ```
 
-There are no Python entry points; all runtime logic lives in the `mulerouter` npm CLI.
+All runtime logic lives in the `mulerouter` npm CLI.
 
 ## License
 
