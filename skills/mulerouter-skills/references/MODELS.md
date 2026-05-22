@@ -43,6 +43,8 @@ python scripts/list_models.py --json
 | Sora 2 | `models/openai/sora2/generation.py` | OpenAI Sora 2 video generation (mulerun only) |
 | Kling V3 T2V | `models/klingai/kling-v3-t2v/generation.py` | Kling V3 text-to-video, 3-15s, sound & multi-shot |
 | Kling V3 Omni T2V | `models/klingai/kling-v3-omni-t2v/generation.py` | Kling V3 Omni text-to-video, multi-shot, sound, element refs |
+| Seedance 2.0 T2V | `mulerouter run bytedance/seedance-2.0/text-to-video` | ByteDance Doubao Seedance 2.0, up to 1080p, 4-15s (npm CLI, mulerun only) |
+| Seedance 2.0-fast T2V | `mulerouter run bytedance/seedance-2.0-fast/text-to-video` | Faster variant, max 720p (npm CLI, mulerun only) |
 
 ### Image-to-Video (I2V)
 
@@ -58,12 +60,16 @@ python scripts/list_models.py --json
 | Midjourney Video | `models/midjourney/video/generation.py` | Image-to-video (prompt must include image URL) |
 | Kling V3 I2V | `models/klingai/kling-v3-i2v/generation.py` | Kling V3 image-to-video, 3-15s, sound & multi-shot |
 | Kling V3 Omni I2V | `models/klingai/kling-v3-omni-i2v/generation.py` | Kling V3 Omni image-to-video, multi-shot, sound |
+| Seedance 2.0 I2V | `mulerouter run bytedance/seedance-2.0/image-to-video` | First+optional-last frame, up to 1080p (npm CLI, mulerun only) |
+| Seedance 2.0-fast I2V | `mulerouter run bytedance/seedance-2.0-fast/image-to-video` | Faster variant, max 720p (npm CLI, mulerun only) |
 
 ### Reference-to-Video (Ref2V)
 
 | Model | Path | Description |
 |-------|------|-------------|
 | Kling V3 Omni Ref2V | `models/klingai/kling-v3-omni-ref2v/generation.py` | Kling V3 Omni reference-to-video, style/character guidance |
+| Seedance 2.0 R2V | `mulerouter run bytedance/seedance-2.0/reference-to-video` | Multi-modal references (images/videos/audios), up to 1080p (npm CLI, mulerun only) |
+| Seedance 2.0-fast R2V | `mulerouter run bytedance/seedance-2.0-fast/reference-to-video` | Faster variant, max 720p (npm CLI, mulerun only) |
 
 ### Video-to-Video (V2V)
 

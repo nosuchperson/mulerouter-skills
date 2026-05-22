@@ -3,7 +3,7 @@ name: mulerouter
 description: Generates images, videos, audio, speech, and music using MuleRouter or MuleRun multimodal APIs. Text-to-Image, Image-to-Image, Text-to-Video, Image-to-Video, Reference-to-Video, Video-to-Video, video editing (VACE, keyframe interpolation), Text-to-Speech, Text-to-Music. Use when the user wants to generate, edit, or transform images, videos, speech, or music using AI models like Wan2.6, Veo3, Nano Banana Pro, Sora2, Midjourney, Kling V3, Kling V3 Omni, MiniMax Speech 2.8, MiniMax Music 2.5.
 compatibility: Requires Python 3.10+, uv, MULEROUTER_API_KEY env var, and one of MULEROUTER_BASE_URL or MULEROUTER_SITE env var. Needs network access to api.mulerouter.ai or api.mulerun.com. The API key is sent in Authorization headers to the configured endpoint.
 homepage: https://github.com/openmule/mulerouter-skills
-allowed-tools: Bash(uv run *) Bash(uv sync *) Read
+allowed-tools: Bash(uv run *) Bash(uv sync *) Bash(npx mulerouter*) Bash(npm install*) Read
 metadata:
   clawdbot:
     requires:
@@ -158,6 +158,89 @@ uv run python scripts/list_models.py --tag SOTA
 1. For an image generation model, a suggested timeout is 5 minutes.
 2. For a video generation model, a suggested timeout is 15 minutes.
 3. For TTS models (speech-2.8-hd/turbo), `--voice-id` is required. Use `--list-params` to see available voices, or refer to [MINIMAX_VOICES.md](references/MINIMAX_VOICES.md) for the full voice catalog.
+
+## Seedance via npm CLI (newer models)
+
+The Seedance 2.0 / 2.0-fast series (ByteDance video models) is invoked through the **npm-distributed `mulerouter` CLI**, not via `uv run python ...`. All other existing models continue to use the Python entry points above.
+
+> ⚠ Currently seedance is only available on the subsystem site (`api.mulerun.com`). Add `--site mulerun` explicitly. The standalone site (`api.mulerouter.ai`) does not yet route these endpoints (404).
+
+### Installation
+
+```bash
+npm install -g mulerouter
+# Or run ad-hoc without installing:
+npx -y mulerouter@latest --help
+```
+
+### Environment Variables
+
+Reuses the same variables as the Python skill: `MULEROUTER_API_KEY` plus `MULEROUTER_SITE` (or `MULEROUTER_BASE_URL`). `.env` loading semantics are identical.
+
+### Discover endpoints
+
+```bash
+mulerouter list --provider bytedance
+mulerouter params bytedance/seedance-2.0/text-to-video
+```
+
+### Examples (6 endpoints × std/fast)
+
+T2V — text-to-video:
+```bash
+mulerouter run bytedance/seedance-2.0/text-to-video \
+  --site mulerun \
+  --prompt "A cat walking through a snowy garden" \
+  --resolution 1080p --duration 5
+
+# fast variant (max 720p, does not accept camera_fixed/watermark)
+mulerouter run bytedance/seedance-2.0-fast/text-to-video \
+  --site mulerun \
+  --prompt "A cat walking" --resolution 720p --duration 4
+```
+
+I2V — image-to-video (local paths are auto-converted to base64; optional last frame):
+```bash
+mulerouter run bytedance/seedance-2.0/image-to-video \
+  --site mulerun \
+  --prompt "Gentle zoom in" \
+  --image /tmp/first.png \
+  --last-frame-image /tmp/last.png
+```
+
+R2V — reference-to-video (multi-modal references; at least one of images/videos/audios required):
+```bash
+mulerouter run bytedance/seedance-2.0/reference-to-video \
+  --site mulerun \
+  --prompt "Cinematic montage" \
+  --images '["/tmp/ref1.png","/tmp/ref2.png"]' \
+  --videos '["https://example.com/clip.mp4"]'
+```
+
+> R2V notes: `--videos` only accepts **HTTPS URLs** (no http, no base64); `--audios` cannot be used alone — it must be combined with images or videos.
+
+### Async workflow (--no-wait + status)
+
+```bash
+# 1) Submit without waiting
+mulerouter run bytedance/seedance-2.0/text-to-video \
+  --site mulerun \
+  --prompt "..." --no-wait --json
+# → {"task_id":"...","api_path":"/vendors/bytedance/v1/seedance-2.0/text-to-video/generation",...}
+
+# 2) Poll using api_path (poll URL = ${api_path}/${task_id}, same convention as alibaba/wan etc.)
+mulerouter status /vendors/bytedance/v1/seedance-2.0/text-to-video/generation <task-id> --site mulerun
+
+# 3) Block until terminal state
+mulerouter status /vendors/bytedance/v1/seedance-2.0/text-to-video/generation <task-id> --site mulerun --wait
+```
+
+### Tips
+
+- For video tasks, use `--max-wait 900` (default) or longer. The fast variant typically takes 1-3 min; std + 1080p can take 5-10 min.
+- `--duration` is a discrete set `{-1, 4..15}`. `-1` lets the model choose; other integers must fall in 4..15 (**2 or 3 seconds are not accepted**).
+- `--seed` range is `-1..4294967295`; omit for a random seed.
+- Do not pass `--model` — the mule-router gateway injects it automatically based on the URL segment.
 
 ## References
 
