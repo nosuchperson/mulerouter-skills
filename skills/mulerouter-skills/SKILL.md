@@ -135,11 +135,9 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 
 ### MiniMax — all `--site mulerun` (4)
 
-- `minimax/speech-2.8-hd/generation` — `/vendors/minimax/v1/speech-2.8-hd/text-to-speech/generation` — requires `--prompt` + `--voice-id` (see [MINIMAX_VOICES.md](references/MINIMAX_VOICES.md)). ⚠ **Output schema — two paths:**
-  - **Recommended (`mulerouter` CLI ≥ 0.4.1)**: pass `--output-format url` → `audios[0]` is an HTTPS URL, same as music endpoints.
-  - **Fallback** (CLI ≤ 0.4.0, or explicit `--output-format hex`): `audios[0]` is a hex-encoded MP3 byte string (with ID3 header). Decode: `echo "<hex>" | xxd -r -p > out.mp3`; report the local file path. CLI ≤ 0.4.0 has a body-shape bug — `--output-format url` is silently dropped and hex is always returned, so on those versions just go straight to the hex path.
-- `minimax/speech-2.8-turbo/generation` — `/vendors/minimax/v1/speech-2.8-turbo/text-to-speech/generation` — same flags + same `--output-format` handling as `-hd`.
-- `minimax/music-2.0/generation` — `/vendors/minimax/v1/music-2.0/text-to-music/generation` — requires `--lyrics-prompt` (use `[verse]` / `[chorus]` tags). `--prompt` describes style. Output: real HTTPS URL in `audios[0]` (gateway always converts to URL, no `--output-format` needed).
+- `minimax/speech-2.8-hd/generation` — `/vendors/minimax/v1/speech-2.8-hd/text-to-speech/generation` — requires `--prompt` + `--voice-id` (see [MINIMAX_VOICES.md](references/MINIMAX_VOICES.md)). ⚠ **`audios[0]` is the audio bytes as a hex string, not a URL.** Decode it: `echo "<hex>" | xxd -r -p > out.mp3` (the file is an MP3 with ID3 header); report the local file path as the result.
+- `minimax/speech-2.8-turbo/generation` — `/vendors/minimax/v1/speech-2.8-turbo/text-to-speech/generation` — same flags as `-hd`, same hex-audio output handling.
+- `minimax/music-2.0/generation` — `/vendors/minimax/v1/music-2.0/text-to-music/generation` — requires `--lyrics-prompt` (use `[verse]` / `[chorus]` tags). `--prompt` describes style. Output: real HTTPS URL in `audios[0]` (gateway always converts to URL, unlike speech).
 - `minimax/music-2.5/generation` — `/vendors/minimax/v1/music-2.5/text-to-music/generation` — provide either `--lyrics-prompt` or `--lyrics-optimizer` + `--prompt`. Output: real HTTPS URL in `audios[0]`.
 
 ### OpenAI (2 actions, 1 model)
