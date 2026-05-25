@@ -135,10 +135,10 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 
 ### MiniMax — all `--site mulerun` (4)
 
-- `minimax/speech-2.8-hd/generation` — `/vendors/minimax/v1/speech-2.8-hd/text-to-speech/generation` — requires `--prompt` + `--voice-id` (see [MINIMAX_VOICES.md](references/MINIMAX_VOICES.md)).
-- `minimax/speech-2.8-turbo/generation` — `/vendors/minimax/v1/speech-2.8-turbo/text-to-speech/generation` — same flags as `-hd`.
-- `minimax/music-2.0/generation` — `/vendors/minimax/v1/music-2.0/text-to-music/generation` — requires `--lyrics-prompt` (use `[verse]` / `[chorus]` tags). `--prompt` describes style.
-- `minimax/music-2.5/generation` — `/vendors/minimax/v1/music-2.5/text-to-music/generation` — provide either `--lyrics-prompt` or `--lyrics-optimizer` + `--prompt`.
+- `minimax/speech-2.8-hd/generation` — `/vendors/minimax/v1/speech-2.8-hd/text-to-speech/generation` — requires `--prompt` + `--voice-id` (see [MINIMAX_VOICES.md](references/MINIMAX_VOICES.md)). ⚠ **`audios[0]` is the audio bytes as a hex string, not a URL.** Decode it: `echo "<hex>" | xxd -r -p > out.mp3` (the file is an MP3 with ID3 header); report the local file path as the result.
+- `minimax/speech-2.8-turbo/generation` — `/vendors/minimax/v1/speech-2.8-turbo/text-to-speech/generation` — same flags as `-hd`, same hex-audio output handling.
+- `minimax/music-2.0/generation` — `/vendors/minimax/v1/music-2.0/text-to-music/generation` — requires `--lyrics-prompt` (use `[verse]` / `[chorus]` tags). `--prompt` describes style. Output: real HTTPS URL in `audios[0]` (unlike speech).
+- `minimax/music-2.5/generation` — `/vendors/minimax/v1/music-2.5/text-to-music/generation` — provide either `--lyrics-prompt` or `--lyrics-optimizer` + `--prompt`. Output: real HTTPS URL in `audios[0]`.
 
 ### OpenAI (2 actions, 1 model)
 
