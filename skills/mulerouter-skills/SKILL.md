@@ -85,7 +85,7 @@ Format: ``endpoint`` — `--site <site>` — `api_path` — notes (only when som
 
 ### Alibaba (15)
 
-- `alibaba/wan2.1-vace-plus/generation` — any site — `/vendors/alibaba/v1/wan2.1-vace-plus/generation` — **requires `--model wan2.1-vace-plus`** + `--function {outpainting,video_extend,reference_generation,interpolation,inpainting}`.
+- `alibaba/wan2.1-vace-plus/generation` — any site — `/vendors/alibaba/v1/wan2.1-vace-plus/generation` — **requires `--model wan2.1-vace-plus`** + `--function {image_reference,video_repainting,video_edit,video_extension,video_outpainting}`.
 - `alibaba/wan2.1-kf2v-plus/generation` — any site — `/vendors/alibaba/v1/wan2.1-kf2v-plus/generation` — keyframe interpolation: requires `--image` (first) **and** `--last-frame`.
 - `alibaba/wan2.2-t2v-plus/generation` — any site — `/vendors/alibaba/v1/wan2.2-t2v-plus/generation`.
 - `alibaba/wan2.2-i2v-plus/generation` — any site — `/vendors/alibaba/v1/wan2.2-i2v-plus/generation` — `--resolution {480P,1080P}` only.
@@ -126,7 +126,7 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 - `klingai/kling-v3-omni-i2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/image-to-video/generation` — `--last-frame` requires `--first-frame`; if neither, `--aspect-ratio` is required.
 - `klingai/kling-v3-omni-ref2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/reference-image-to-video/generation` — combine `--images` / `--elements` / `--first-frame` / `--last-frame`; total ≤ 7.
 - `klingai/kling-v3-omni-v2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/reference-video-to-video/generation` — requires `--prompt` and `--video '[{...}]'` (exactly 1 video). Aspect ratio/duration auto-inferred from video if omitted.
-- `klingai/kling-v3-omni-v2v-edit/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/video-to-video/edit` — requires `--prompt` and `--video '[{...,"refer_type":"base",...}]'`. `--mode std` → 720P output, `--mode pro` → 1080P.
+- `klingai/kling-v3-omni-v2v-edit/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/video-to-video/edit` — requires `--prompt` and `--video '[{...,"refer_type":"base",...}]'` (pass the JSON literal **single-quoted** so the shell doesn't reinterpret it — do NOT escape inner double quotes with backslashes or `sed`; e.g. `--video '[{"video_url":"https://...mp4","refer_type":"base"}]'`). `--mode std` → 720P output, `--mode pro` → 1080P.
 
 ### Midjourney (2)
 
