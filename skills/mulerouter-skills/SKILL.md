@@ -148,7 +148,7 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 
 ### ByteDance Seedance (6)
 
-All on **`--site mulerun`** only (subsystem routing). `seedance-2.0-fast` caps at 720p and does not accept `camera_fixed` / `watermark`.
+Any site. `seedance-2.0-fast` caps at 720p and does not accept `camera_fixed` / `watermark`.
 
 - `bytedance/seedance-2.0/text-to-video` and `bytedance/seedance-2.0-fast/text-to-video`.
 - `bytedance/seedance-2.0/image-to-video` and `bytedance/seedance-2.0-fast/image-to-video` — local paths auto-base64; optional `--last-frame-image`.
