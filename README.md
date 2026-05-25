@@ -5,7 +5,7 @@ Agent Skill for calling MuleRouter / MuleRun multimodal APIs to generate images,
 ## Features
 
 - **Multiple sites** — supports both [MuleRouter](https://mulerouter.ai) and [MuleRun](https://mulerun.com) gateways
-- **37+ endpoints** — Wan2.1/2.2/2.5/2.6, Happy Horse, Seedance 2.0, Nano Banana / Pro, Veo3, Sora2, GPT-Image-2, Kling V3 / V3 Omni, Midjourney, MiniMax Speech 2.8 + Music 2.5
+- **37+ endpoints** — Wan2.1/2.2/2.5/2.6, Happy Horse, Seedance 2.0, Nano Banana / Pro, Veo3, GPT-Image-2, Kling V3 / V3 Omni, Midjourney, MiniMax Speech 2.8 + Music 2.5
 - **Single CLI surface** — `mulerouter run <provider>/<model>/<action> --flag value …`
 - **Easy configuration** — environment variables or `.env` file
 - **Async task handling** — automatic polling, or split into `--no-wait` + `mulerouter status` for long jobs

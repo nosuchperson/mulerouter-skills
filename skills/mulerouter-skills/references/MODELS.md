@@ -99,9 +99,6 @@ Note: every endpoint in this catalog goes through the same async task-poll lifec
 |----------|-----|--------|------|----------|
 | `openai/gpt-image-2/generation` | SOTA | image | mulerouter | `/vendors/openai/v1/gpt-image-2/generation` |
 | `openai/gpt-image-2/edit` | SOTA | image | mulerouter | `/vendors/openai/v1/gpt-image-2/edit` |
-| `openai/sora2/generation` ⚠ | SOTA | video | mulerun | `/vendors/openai/v1/sora-2/generation` |
-
-⚠ `openai/sora2/generation` requires `mulerouter` CLI built from commit `2dc5b60` or later. Until a new version is published to npm, this endpoint is unavailable via the published CLI. See [../SKILL.md](../SKILL.md) for full notes.
 
 ## Result Keys
 

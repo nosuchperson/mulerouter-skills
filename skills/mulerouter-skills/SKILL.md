@@ -1,6 +1,6 @@
 ---
 name: mulerouter
-description: Generates images, videos, audio, speech, and music using MuleRouter or MuleRun multimodal APIs. Text-to-Image, Image-to-Image, Text-to-Video, Image-to-Video, Reference-to-Video, Video-to-Video, video editing (VACE, keyframe interpolation), Text-to-Speech, Text-to-Music. Use when the user wants to generate, edit, or transform images, videos, speech, or music using AI models like Wan2.6, Veo3, Nano Banana Pro, Sora2, Midjourney, Kling V3, Kling V3 Omni, MiniMax Speech 2.8, MiniMax Music 2.5, ByteDance Seedance 2.0.
+description: Generates images, videos, audio, speech, and music using MuleRouter or MuleRun multimodal APIs. Text-to-Image, Image-to-Image, Text-to-Video, Image-to-Video, Reference-to-Video, Video-to-Video, video editing (VACE, keyframe interpolation), Text-to-Speech, Text-to-Music. Use when the user wants to generate, edit, or transform images, videos, speech, or music using AI models like Wan2.6, Veo3, Nano Banana Pro, Midjourney, Kling V3, Kling V3 Omni, MiniMax Speech 2.8, MiniMax Music 2.5, ByteDance Seedance 2.0.
 compatibility: Requires Node.js 18+, the `mulerouter` npm CLI, MULEROUTER_API_KEY env var, and one of MULEROUTER_BASE_URL or MULEROUTER_SITE env var. Needs network access to api.mulerouter.ai or api.mulerun.com. The API key is sent in Authorization headers to the configured endpoint.
 homepage: https://github.com/openmule/mulerouter-skills
 allowed-tools: Bash(mulerouter *) Bash(npx mulerouter*) Bash(npm install*) Read
@@ -140,11 +140,10 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 - `minimax/music-2.0/generation` — `/vendors/minimax/v1/music-2.0/text-to-music/generation` — requires `--lyrics-prompt` (use `[verse]` / `[chorus]` tags). `--prompt` describes style.
 - `minimax/music-2.5/generation` — `/vendors/minimax/v1/music-2.5/text-to-music/generation` — provide either `--lyrics-prompt` or `--lyrics-optimizer` + `--prompt`.
 
-### OpenAI (3 actions, 2 models)
+### OpenAI (2 actions, 1 model)
 
 - `openai/gpt-image-2/generation` `[SOTA]` — **`--site mulerouter`** — `/vendors/openai/v1/gpt-image-2/generation`.
 - `openai/gpt-image-2/edit` `[SOTA]` — **`--site mulerouter`** — `/vendors/openai/v1/gpt-image-2/edit` — requires `--images`.
-- `openai/sora2/generation` `[SOTA]` — **`--site mulerun`** — `/vendors/openai/v1/sora-2/generation` (path uses `sora-2`). ⚠ **Unavailable until npm publish.** Requires `mulerouter` CLI built from commit `2dc5b60` or later. Until a new version is on npm, calls will fail with "unknown endpoint".
 
 ### ByteDance Seedance (6)
 
