@@ -44,12 +44,12 @@ mulerouter params <provider>/<model>/<action>  # detailed schema
 
 | Endpoint | Tag | Output | Site | API Path |
 |----------|-----|--------|------|----------|
-| `bytedance/seedance-2.0/text-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0/text-to-video/generation` |
-| `bytedance/seedance-2.0/image-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0/image-to-video/generation` |
-| `bytedance/seedance-2.0/reference-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0/reference-to-video/generation` |
-| `bytedance/seedance-2.0-fast/text-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0-fast/text-to-video/generation` |
-| `bytedance/seedance-2.0-fast/image-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0-fast/image-to-video/generation` |
-| `bytedance/seedance-2.0-fast/reference-to-video` | | video | mulerun | `/vendors/bytedance/v1/seedance-2.0-fast/reference-to-video/generation` |
+| `bytedance/seedance-2.0/text-to-video` | | video | both | `/vendors/bytedance/v1/seedance-2.0/text-to-video/generation` |
+| `bytedance/seedance-2.0/image-to-video` | | video | both | `/vendors/bytedance/v1/seedance-2.0/image-to-video/generation` |
+| `bytedance/seedance-2.0/reference-to-video` | | video | both | `/vendors/bytedance/v1/seedance-2.0/reference-to-video/generation` |
+| `bytedance/seedance-2.0-fast/text-to-video` | | video | both | `/vendors/bytedance/v1/seedance-2.0-fast/text-to-video/generation` |
+| `bytedance/seedance-2.0-fast/image-to-video` | | video | both | `/vendors/bytedance/v1/seedance-2.0-fast/image-to-video/generation` |
+| `bytedance/seedance-2.0-fast/reference-to-video` | | video | both | `/vendors/bytedance/v1/seedance-2.0-fast/reference-to-video/generation` |
 
 ### Google
 

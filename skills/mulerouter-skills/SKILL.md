@@ -125,8 +125,8 @@ All on either site. `--prompt` and `--negative-prompt` cap at 2500 chars. Refere
 - `klingai/kling-v3-omni-t2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/text-to-video/generation`.
 - `klingai/kling-v3-omni-i2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/image-to-video/generation` — `--last-frame` requires `--first-frame`; if neither, `--aspect-ratio` is required.
 - `klingai/kling-v3-omni-ref2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/reference-image-to-video/generation` — combine `--images` / `--elements` / `--first-frame` / `--last-frame`; total ≤ 7.
-- `klingai/kling-v3-omni-v2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/reference-video-to-video/generation` — requires `--prompt` and `--video '[{...}]'` (exactly 1 video). Aspect ratio/duration auto-inferred from video if omitted.
-- `klingai/kling-v3-omni-v2v-edit/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/video-to-video/edit` — requires `--prompt` and `--video '[{...,"refer_type":"base",...}]'` (pass the JSON literal **single-quoted** so the shell doesn't reinterpret it — do NOT escape inner double quotes with backslashes or `sed`; e.g. `--video '[{"video_url":"https://...mp4","refer_type":"base"}]'`). `--mode std` → 720P output, `--mode pro` → 1080P.
+- `klingai/kling-v3-omni-v2v/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/reference-video-to-video/generation` — requires `--prompt` and `--video <url>` (string URL, mp4/mov 3–10s, 720–2160px, ≤200MB). `--aspect-ratio {16:9,9:16,1:1}` is required at runtime (upstream returns 4002 if omitted). `--keep-audio true|false` (default false).
+- `klingai/kling-v3-omni-v2v-edit/generation` `[SOTA]` — `/vendors/klingai/v1/kling-v3-omni/video-to-video/edit` — requires `--prompt` and `--video <url>` (string URL, same constraints). `--keep-audio true|false` (default false). `--mode std` → 720P output, `--mode pro` → 1080P.
 
 ### Midjourney (2)
 
